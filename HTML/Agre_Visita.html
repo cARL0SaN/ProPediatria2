@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProPediatria - Agregar Visita</title>
+    <link rel="icon" href="../img/Logomin.png">
+    <link rel="stylesheet" href="../CSS/Visita.css">
+</head>
+
+<body>
+    <main class="contain">
+        <article id="tit">
+            <h1>AGREGAR VISITA</h1>
+        </article>
+        <section class="container">
+            <form action="Agre_Vis.php" method="post" class="datos">
+                <div id="container2">
+                    <label for="" class="dat">Fecha de la visita</label><br>
+                    <input type="date" name="fecha" class="data1" id="fecha" readonly>
+                    <input type="hidden" name="fecha_naci" value="<?php echo $fec_naci?>">
+                    <input type="hidden" name="id_nino" value="<?php echo $id_nino?>">
+                </div>
+
+                <div id="container2">
+                    <div id="inside1">
+                        <label for="" class="dat">Talla/Longitud(cm)</label>
+                        <input type="number" name="talla" class="data1" id="talla" min="0">
+                    </div>
+                    <div id="inside1">
+                        <label for="" class="dat">Peso(kg)</label>
+                        <input type="number" name="peso" class="data1" id="peso" min="0">
+                    </div>
+                    <div id="inside1">
+                        <label for="" class="dat">Perímetro Cefálico(cm)</label>
+                        <input type="number" name="peri" class="data1" id="peri" min="0">
+                    </div>
+                </div>
+
+
+                <div id="container2">
+                    <div id="inside">
+                        <label for="" class="dat">Cirugias</label>
+                        <input type="radio" name="des4" value="si" class="data2" id="radio" onclick="mosArea(this)">si
+                        <textarea name="" id="area" cols="95" rows="2"></textarea>
+                        <input type="radio" name="des4" value="no" class="data2" id="radio" onclick="mosArea(this)">no
+                        
+                    </div>
+                </div>
+
+                <div id="container2">
+                    <div id="inside">
+                        <label for="" class="dat">Enfermedades</label>
+                        <input type="radio" name="des3" value="si" class="data2" id="radio" onclick="mosArea(this)">si
+                        <select id="opciones" name="opciones">
+                            <?php
+                            if ($result2->num_rows > 0) {
+                                while($row = $result2->fetch_assoc()) {
+                                    echo "<option value='" . $row["idTipoEnfermedad"] . "'>" . $row["nom_TipoEnfermedad"] . "</option>";
+                                }
+                            } else {
+                                echo "<option value=''>No hay opciones disponibles</option>";
+                            }
+                            ?>
+                        </select>
+                        <textarea id="observaciones" name="observaciones" rows="4" cols="50"></textarea>
+                        <button id="agregar">Agregar</button>
+                        <textarea id="seleccionados" name="seleccionados" rows="4" cols="50" readonly></textarea>
+                        <input type="radio" name="des3" value="no" class="data2" id="radio" onclick="mosArea(this)">no
+                    </div>
+                    <div id="inside">
+                        <label for="" class="dat">Vacunas aplicadas</label>
+                        <input type="radio" name="des1" value="si" class="data2" id="radio" onclick="mosArea(this)">si
+                        <select id="opciones2" name="opciones">
+                            <?php
+                            if ($result->num_rows > 0) {
+                                while($row = $result->fetch_assoc()) {
+                                    echo "<option value='" . $row["idTipoVacuna"] . "'>" . $row["nom_TipoVacuna"] . "</option>";
+                                }
+                            } else {
+                                echo "<option value=''>No hay opciones disponibles</option>";
+                            }
+                            ?>
+                        </select>
+                        <textarea id="observaciones2" name="observaciones2" rows="4" cols="50"></textarea>
+                        <button id="agregar2">Agregar</button>
+                        <textarea id="seleccionados2" name="seleccionados2" rows="4" cols="50" readonly></textarea>
+                        <input type="radio" name="des1" value="no" class="data2" id="radio" onclick="mosArea(this)">no
+                    </div>
+                </div>
+
+                <div id="container2">
+                    <div id="inside2">
+                        <label for="" class="dat">Observaciones</label>
+                        <textarea name="obser" id="textmedi" cols="95" rows="10"></textarea>
+                    </div>
+                </div>
+
+                <div id="container2">
+                    <input type="button" value="Crear Gráfica" id="boton" onclick="mosgrafica()">
+                    <div id="grafica">
+                    </div>
+                </div>
+
+                <div id="botones">
+                    <a href="#">
+                        <input type="button" value="Salir" id="boton" onclick="window.close()">
+                    </a>
+                    <a href="#">
+                        <input type="submit" value="Guardar" id="boton">
+                    </a>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        document.getElementById('agregar').addEventListener('click', function (event) {
+            event.preventDefault(); // Evitar que se recargue la página
+
+            var opciones = document.getElementById('opciones');
+            var seleccionados = document.getElementById('seleccionados');
+            var observaciones = document.getElementById('observaciones');
+            var selectedOptions = Array.from(opciones.selectedOptions).map(option => {
+                return {
+                    value: option.value,
+                    text: option.textContent,
+                    observacion: observaciones.value.trim()
+                };
+            });
+
+            seleccionados.value += selectedOptions.map(option => {
+                return option.text + " - Observación: " + option.observacion;
+            }).join('\n') + '\n'; // Agregar los nuevos datos al final del contenido existente
+        });
+
+        document.getElementById('agregar2').addEventListener('click', function (event) {
+            event.preventDefault(); // Evitar que se recargue la página
+
+            var opciones = document.getElementById('opciones2');
+            var seleccionados = document.getElementById('seleccionados2');
+            var observaciones = document.getElementById('observaciones2');
+            var selectedOptions = Array.from(opciones.selectedOptions).map(option => {
+                return {
+                    value: option.value,
+                    text: option.textContent,
+                    observacion: observaciones.value.trim()
+                };
+            });
+
+            seleccionados.value += selectedOptions.map(option => {
+                return option.text + " - Observación: " + option.observacion;
+            }).join('\n') + '\n'; // Agregar los nuevos datos al final del contenido existente
+        });
+    </script>
+
+    <script>
+        function obtenerFechaActual() {
+            const fechaActual = new Date();
+            const mes = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
+            const dia = fechaActual.getDate().toString().padStart(2, '0');
+            const fechaFormateada = `${fechaActual.getFullYear()}-${mes}-${dia}`;
+            return fechaFormateada;
+        }
+
+        const fechaInput = document.getElementById('fecha');
+        fechaInput.value = obtenerFechaActual();
+    </script>
+
+    <script>
+
+        function mosArea(radio) {
+            var area = radio.parentNode.querySelector('textarea');
+            var otrasAreas = radio.parentNode.parentNode.querySelectorAll('textarea');
+
+            if (radio.value === 'si') {
+                area.style.display = 'block';
+                otrasAreas.forEach(function (otraArea) {
+                    if (otraArea !== area) {
+                        otraArea.style.display = 'none';
+                    }
+                });
+            } else {
+                area.style.display = 'none';
+            }
+        }
+    </script>
+
+    <script>
+        function mosgrafica() {
+            document.getElementById('grafica').style.display = 'flex';
+        }
+    </script>
+
+    <script>
+        document.getElementById('talla').addEventListener('keydown', function (e) {
+            if (e.key === '-') {
+                e.preventDefault();
+            }
+        });
+        document.getElementById('peso').addEventListener('keydown', function (e) {
+            if (e.key === '-') {
+                e.preventDefault();
+            }
+        });
+        document.getElementById('peri').addEventListener('keydown', function (e) {
+            if (e.key === '-') {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+
+</html>
