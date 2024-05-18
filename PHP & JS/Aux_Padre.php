@@ -8,7 +8,7 @@ if (isset($_SESSION['Persona_idPersona'])) {
 
     $id_nino = $_GET['id_nino'];
 
-    include '../Reg_Padre.html';
+    include '../HTML/Reg_Padre.html';
 
     $conn->close();
 } else {

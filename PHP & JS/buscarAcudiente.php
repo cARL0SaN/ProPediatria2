@@ -7,8 +7,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conexion = new Conexion();
     $conn = $conexion->conectar();
 
+    $sql = "SELECT Persona_idPersona FROM acceso WHERE Persona_idPersona = $valor";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $data = array('nom_persona');
+        echo json_encode($data);
+    }
+
     // Realizar la consulta SQL para buscar el dato en la tabla especificada
-    $sql = "SELECT nom_persona, ape_persona, correo_persona, telefono_persona, fechaNaci_persona FROM persona WHERE idPersona = '$valor'";
+    $sql = "SELECT nom_persona, ape_persona, correo_persona, telefono_persona, fechaNaci_persona FROM persona 
+    INNER JOIN acudiente ON Persona_idPersona = idPersona WHERE Persona_idPersona = '$valor'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {

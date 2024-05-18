@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProPediatria - Pediatras</title>
+    <link rel="icon" href="../img/Logomin.png">
+    <link rel="stylesheet" href="../CSS/Pediatras.css">
+
+</head>
+
+<body>
+    <?php include 'logout_Timer.php'; ?>
+    <main class="contain">
+        <header>
+            <nav>
+                <ul id="log">
+                    <li id="logo"><img src="../img/Logo.png" alt=""></li>
+                </ul>
+                <div id="nave"><img src="../img/menu.png" alt="" onclick="menu()"></div>
+                <ul id="ico">
+                    <li><a href="../HTML/index.html">Inicio</a></li>
+                    <li><a href="../PHP & JS/Pediatras.php">Pediatras</a></li>
+                    <li><a href="../HTML/Reg_Acudiente.html">Registro</a></li>
+                    <li><a href="../PHP & JS/Login.php">Iniciar sesion</a></li>
+                </ul>
+            </nav>
+            <ul id="ico2">
+                <li><a href="../HTML/index.html">Inicio</a></li>
+                <li><a href="../PHP & JS/Pediatras.php">Pediatras</a></li>
+                <li><a href="../HTML/Reg_Acudiente.html">Registro</a></li>
+                <li><a href="../PHP & JS/Login.php">Iniciar sesion</a></li>
+            </ul>
+        </header>
+
+        <div id="barra">
+            <hr size="6px" color="lightseagreen">
+        </div>
+
+        <section class="pediatras">
+            <?php
+                if($result->num_rows > 0){
+                    while($row = $result->fetch_assoc()){
+                        if($row['foto_pediatra'] == null){
+                            $img = "../img/perfil.png";
+                        }else{
+                            $img = $row['foto_pediatra'];
+                            if(strpos($img, "../uploads") !== 0) {
+                                $img = "../img/perfil.png";
+                            }
+                        }
+                        if($row['telefono_persona'] == null){
+                            $row['telefono_persona'] = 'No hay telefono disponible';
+                        }
+                        if($row['correo_persona'] == null){
+                            $row['correo_persona'] = 'No hay correo disponible';
+                        }
+                        if($row['lugarLabora_pediatra'] == null){
+                            $row['lugarLabora_pediatra'] = 'Información no disponible';
+                        }
+                        echo '<div class="foto"><img src="' . $img . '" alt="foto del pediatra"></div>';
+                        echo '<div class="info" id="info">
+                            ' . 'Numero de identificacion: ' . $row['idPersona'] 
+                            . '<br> Nombre: ' . $row['nom_persona'] 
+                            . '<br> Apellido: ' . $row['ape_persona']
+                            . '<br> Fecha de nacimiento: ' . $row['fechaNaci_persona']
+                            . '<br> Telefono: ' . $row['telefono_persona']
+                            . '<br> Correo Electronico: ' . $row['correo_persona']
+                            . '<br> Lugar de trabajo: ' . $row['lugarLabora_pediatra'] . 
+                            '</div>';
+                        if($row['idPersona'] === $id){
+                            echo '<script>
+                                    document.getElementById("info").style.display = "flex";
+                                    document.getElementById("info").style.justifyContent = "center";
+                                  </script>';
+                            echo '<div class="acceder">
+                                <a href="info_pediatra.php">¡Eres tu!, <br> Has clic para acceder a tu ventana</a>
+                            </div>';
+                        }
+                    }
+                }  
+            ?>
+
+
+        </section>
+    </main>
+
+    <script>
+        function menu() {
+            const menu = document.getElementById('ico2');
+            const windowWidth = window.innerWidth;
+
+            menu.style.transitionProperty = 'display';
+            menu.style.transitionDuration = '2s';
+            menu.style.display = (menu.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        window.addEventListener('resize', () => {
+            const menu = document.getElementById('ico2');
+            const windowWidth = window.innerWidth;
+
+            if (windowWidth > 1081) {
+                menu.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>

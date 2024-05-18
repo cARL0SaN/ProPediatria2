@@ -1,0 +1,52 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #b1c2db;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.campoBuscar {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#buscar {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 200px;
+    margin-right: 10px;
+}
+
+#botonBuscar {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#botonCancelarContainer {
+    text-align: center; /* Centra el botón */
+    margin-top: 10px; /* Espacio superior */
+}
+
+#botonCancelar {
+    padding: 10px 20px;
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#botonCancelar:hover {
+    background-color: #c82333;
+}

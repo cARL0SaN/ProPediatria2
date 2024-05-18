@@ -120,10 +120,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($conn->query($sqlPaciente) === TRUE) {
         echo "<script>alert('Registro exitoso. Nuevo Paciente y acudiente añadido');</script>";
         $id_nino = $identificacion;
-        header("refresh:1;url=info_nino.php?ident=$id_nino");
+        echo "<script>window.close()</script>";
+        //header("refresh:1;url=info_nino.php?ident=$id_nino");
     } else {
         echo "Error al registrar al Paciente: " . $conn->error;
-        header("refresh:1;url=../Reg_nino.html");
+        header("refresh:1;url=../HTML/Reg_nino.html");
     }
 
 

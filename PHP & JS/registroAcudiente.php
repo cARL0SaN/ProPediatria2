@@ -53,14 +53,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($conn->query($sqlAcceso) === TRUE) {
 
                 echo "<script>alert('Registro exitoso.');</script>";
-                header("refresh:1;url=../inicio_sesion.html");
+                header("refresh:1;url=../HTML/inicio_sesion.html");
             } else {
                 echo "Error al registrar la cuenta: " . $conn->error;
             }
         }
     } else {
         echo "Error en el registro: " . $conn->error;
-        header("refresh:2;url=../Reg_Acudiente.html");
+        header("refresh:2;url=../HTML/Reg_Acudiente.html");
     }
 
     $identificacion = "";

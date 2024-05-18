@@ -513,10 +513,69 @@ h1 {
     background-color: rgb(118, 166, 255);
 }
 
-
 footer {
     width: 100%;
     height: 5em;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.left-column,
+.right-column {
+    text-align: center;
+    padding: 20px;
+    width: 50%;
+}
+
+.left-column {
+    flex-grow: 1;
+}
+
+.right-column {
+    flex-grow: 1;
+}
+
+.sectSaludInfantil {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    border-bottom: 2px solid #ccc;
+    margin-bottom: 20px;
+}
+
+.sectSaludInfantil h1 {
+    margin-top: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    width: fit-content;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.sectSaludInfantil .salud-img {
+    width: 60%;
+    border-radius: 10px;
+    position: relative;
+    margin-top: 50px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .left-column,
+    .right-column {
+        width: 100%;
+    }
 }
 
 @media screen and (max-width: 1080px) {
@@ -562,21 +621,24 @@ footer {
     }
 
     /*--- ---*/
-    #art1,#art2 {
+    #art1,
+    #art2 {
         width: 100%;
     }
 
-    #tit2,#tit3 {
+    #tit2,
+    #tit3 {
         width: 100%;
         display: flex;
         align-items: center;
     }
 
-    #info,#info2 {
+    #info,
+    #info2 {
         width: 90%;
     }
 
-    #art3{
+    #art3 {
         width: 90%;
     }
 
@@ -601,7 +663,8 @@ footer {
         font-size: 1.25em;
     }
 
-    #info,#info2 {
+    #info,
+    #info2 {
         flex-wrap: wrap;
     }
 
@@ -609,31 +672,36 @@ footer {
         display: none;
     }
 
-    #img2, #img2o, #img3{
+    #img2,
+    #img2o,
+    #img3 {
         width: 15em;
         min-height: 10em;
         display: flex;
     }
 
-    #left1, #right1 {
+    #left1,
+    #right1 {
         width: 100%;
     }
 
-    #tit3{
+    #tit3 {
         width: 90%;
         max-height: none;
     }
-    #art3{
+
+    #art3 {
         width: 90%;
         min-height: 8em;
         max-height: none;
     }
 
-    #tit2, #tit3{
+    #tit2,
+    #tit3 {
         align-items: end;
     }
 
-    #conten{
+    #conten {
         width: 100%;
     }
 
@@ -646,7 +714,7 @@ footer {
         height: 13em;
     }
 
-    #rango{
+    #rango {
         width: 22em;
     }
 
@@ -658,7 +726,7 @@ footer {
         align-items: center;
     }
 
-    hr{
+    hr {
         height: 0.75em;
     }
 
@@ -670,7 +738,7 @@ footer {
         display: none;
     }
 
-    header{
+    header {
         position: relative;
         height: 2em;
     }
@@ -705,11 +773,11 @@ footer {
         min-height: 1.5em;
     }
 
-    #ico2 li:hover{
-        background-color:  rgb(224, 224, 224);
+    #ico2 li:hover {
+        background-color: rgb(224, 224, 224);
     }
 
-    #ico2 a{
+    #ico2 a {
         width: 100%;
         display: block;
         text-align: center;
@@ -721,22 +789,25 @@ footer {
     }
 
     /*--- ---*/
-    #art1,#art2 {
+    #art1,
+    #art2 {
         width: 100%;
     }
 
-    #tit2,#tit3 {
+    #tit2,
+    #tit3 {
         width: 100%;
         display: flex;
         align-items: center;
     }
 
-    #info,#info2 {
+    #info,
+    #info2 {
         width: 90%;
         min-height: 28em;
     }
 
-    #art3{
+    #art3 {
         width: 90%;
         min-height: 12em;
         max-height: none;
@@ -747,11 +818,11 @@ footer {
         flex-wrap: wrap;
     }
 
-    #img1 img{
+    #img1 img {
         width: 100%;
     }
 
-    #art1 h1{
+    #art1 h1 {
         width: 100%;
         height: 5em;
     }
@@ -769,37 +840,44 @@ footer {
         display: none;
     }
 
-    #img2, #img2o, #img3{
+    #img2,
+    #img2o,
+    #img3 {
         width: 10em;
         height: 12em;
         display: flex;
     }
 
-    #img2 img, #img2o img, #img3 img{
+    #img2 img,
+    #img2o img,
+    #img3 img {
         width: 100%;
         display: flex;
     }
 
-    #left1, #right1 {
+    #left1,
+    #right1 {
         width: 90%;
         min-height: 32em;
     }
 
-    #tit3{
+    #tit3 {
         width: 90%;
         max-height: none;
     }
-    #art3{
+
+    #art3 {
         width: 90%;
         min-height: 15em;
         max-height: none;
     }
 
-    #tit2, #tit3{
+    #tit2,
+    #tit3 {
         align-items: center;
     }
 
-    #conten{
+    #conten {
         width: 100%;
     }
 
@@ -812,34 +890,34 @@ footer {
         height: 13em;
     }
 
-    #rango{
+    #rango {
         width: 80%;
     }
 
-    #rango h1{
+    #rango h1 {
         font-size: 1.5em;
     }
 
-    #rango ul{
+    #rango ul {
         width: 80%;
     }
 
-    #rango ul li{
+    #rango ul li {
         width: 100%;
     }
 
     /*--- ---*/
 
-    .sect4{
+    .sect4 {
         max-width: 100%;
         min-height: 0;
     }
 
-    #tigraf{
+    #tigraf {
         width: 100%;
     }
 
-    #tigraf h1{
+    #tigraf h1 {
         font-size: 1.25em;
     }
 

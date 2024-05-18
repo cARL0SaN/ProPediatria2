@@ -9,7 +9,6 @@ if (isset($_SESSION['Persona_idPersona'])) {
     $id = $_SESSION['Persona_idPersona'];
     $id_nino = $_GET['ident'];
 
-
     $sql0 = "SELECT Rol_idRol FROM persona WHERE idPersona = ?";
     $stmt0 = $conn->prepare($sql0);
     $stmt0->bind_param("i", $id);
@@ -49,7 +48,7 @@ if (isset($_SESSION['Persona_idPersona'])) {
             $stmt3->execute();
             $result3 = $stmt3->get_result();
             $row3 = $result3->fetch_assoc();
-            
+
             $sql4 = "SELECT telefono_persona FROM persona  WHERE idPersona = ?";
             $stmt4 = $conn->prepare($sql4);
             $stmt4->bind_param("i", $row3['Acudiente_Persona_idPersona']);
@@ -59,7 +58,11 @@ if (isset($_SESSION['Persona_idPersona'])) {
 
             if ($row4) {
                 $Ctel = $row4['telefono_persona'];
-                include '../Ventana_nino.html';
+                $sql5 = "SELECT idVisita, pesoPaciente_visita, alturaPaciente_visita, perimetroCefaPaciente_visita, fecha_visita, IMC_visita, nom_persona 
+                FROM visita INNER JOIN pediatra ON visita.Pediatra_idPediatra_idPersona = pediatra.idPediatra_idPersona INNER JOIN persona 
+                ON pediatra.idPediatra_idPersona = persona.idPersona WHERE visita.fk_idPaciente_idPersona = $id_nino";
+                $result5 = $conn->query($sql5);
+                include '../HTML/Ventana_nino.html';
             } else {
                 echo "<script>alert('No se pudo obtener el teléfono del acudiente')</script>";
             }
@@ -70,6 +73,11 @@ if (isset($_SESSION['Persona_idPersona'])) {
         echo "<script>alert('No se encontraron pacientes asociados al id')</script>";
     }
 
+
+
+
+
+
     // Cerrar las consultas y la conexión
     $stmt0->close();
     $stmt->close();
@@ -78,6 +86,6 @@ if (isset($_SESSION['Persona_idPersona'])) {
     $conn->close();
 } else {
     echo "<script>alert('La variable de sesión está vacía')</script>";
-    header("url=../index.html");
+    header("url=../HTML/index.html");
+    exit();
 }
-

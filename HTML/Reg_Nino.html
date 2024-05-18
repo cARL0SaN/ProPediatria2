@@ -10,6 +10,7 @@
 </head>
 
 <body>
+    <?php include 'logout_Timer.php'; ?>
     <div class="contain">
         <section class="container">
             <article id="tit">
@@ -95,19 +96,22 @@
         // Obtener la fecha actual
         const fechaActual = new Date();
         const fechaActual1 = new Date();
+        const fechaActual2 = new Date();
 
         // Restar 14 años a la fecha actual
-        fechaActual.setFullYear(fechaActual.getFullYear() - 14);
+        fechaActual.setFullYear(fechaActual.getFullYear() - 18);
+        fechaActual2.setFullYear(fechaActual2.getFullYear() - 16);
         fechaActual1.setFullYear(fechaActual1.getFullYear());
 
         // Formatear la fecha como YYYY-MM-DD (formato requerido por el input date)
         const fechaMinima = fechaActual.toISOString().split('T')[0];
         const fechaMaxima = fechaActual1.toISOString().split('T')[0];
+        const fechaMaxima2 = fechaActual2.toISOString().split('T')[0];
 
         // Establecer la fecha mínima en el input date
         document.getElementById('fecha_nacimiento_nino').setAttribute('min', fechaMinima);
         document.getElementById('fecha_nacimiento_nino').setAttribute('max', fechaMaxima);
-        document.getElementById('fecha_nacimiento_responsable').setAttribute('max', fechaMaxima);
+        document.getElementById('fecha_nacimiento_responsable').setAttribute('max', fechaMaxima2);
     </script>
 
     <script>

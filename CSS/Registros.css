@@ -244,6 +244,11 @@ select option {
     height: 3.5em;
 }
 
+select#gs3 {
+    width: 90%;
+    height: 3em;
+}
+
 #photo2, #traer_file{
     display: none;
 }

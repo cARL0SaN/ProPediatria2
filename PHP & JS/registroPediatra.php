@@ -74,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($conn->query($sqlAcceso) === TRUE) {
 
                 echo "<script>alert('Registro exitoso. Nuevo pediatra añadido');</script>";
-                header("refresh:1;url=../inicio_sesion.html");
+                header("refresh:1;url=../HTML/inicio_sesion.html");
             } else {
                 echo "Error al registrar el pediatra: " . $conn->error;
             }

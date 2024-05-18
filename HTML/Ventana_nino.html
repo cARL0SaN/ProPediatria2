@@ -10,6 +10,7 @@
 </head>
 
 <body>
+    <?php include 'logout_Timer.php'; ?>
     <main class="container">
         <header>
             <h1>Datos del niño</h1>
@@ -21,30 +22,37 @@
         <form class="child-data-form" action="Actualizar.php" method="post">
             <div class="form-row">
                 <label for="identification">Identificación</label>
-                <input type="text" id="identification" name="identification" value="<?php echo $Cid; ?>" readonly>
+                <input type="text" id="identification" name="identification" value="<?php echo $Cid; ?>" required
+                    readonly>
 
                 <label for="sex">Sexo</label>
-                <input type="text" id="sex" name="sex" value="<?php echo $Csex; ?>" readonly>
+                <input type="text" id="sex" name="sex" value="<?php echo $Csex; ?>" required readonly>
             </div>
 
             <div class="form-row">
                 <label for="names">Nombre(s)</label>
-                <input type="text" id="names" name="names" value="<?php echo $Cnom; ?>" readonly>
+                <input type="text" id="names" name="names" value="<?php echo $Cnom; ?>" required readonly>
 
                 <label for="surnames">Apellidos</label>
-                <input type="text" id="surnames" name="surnames" value="<?php echo $Cape; ?>" readonly>
+                <input type="text" id="surnames" name="surnames" value="<?php echo $Cape; ?>" required readonly>
             </div>
 
             <div class="form-row">
                 <label for="birth-date">Fecha de nacimiento</label>
-                <input type="date" id="birth-date" name="birth-date" value="<?php echo $Cfec; ?>" readonly>
+                <input type="date" id="birth-date" name="birth-date" value="<?php echo $Cfec; ?>" required readonly>
 
                 <label for="emergency-phone">Teléfono del acudiente</label>
                 <input type="text" id="emergency-phone" name="emergency-phone" value="<?php echo $Ctel; ?>" readonly>
             </div>
 
+            <div class="form-row">
+                <label for="password">contraseña</label>
+                <input type="password" id="password" name="password" value="" readonly>
+            </div>
+
             <div class="form-actions">
-                <button type="button" class="update-button" onclick="abrirPagina('Aux_Padre.php?id_nino=<?php echo urlencode($Cid); ?>')">Registrar
+                <button type="button" class="update-button"
+                    onclick="abrirPagina('Aux_Padre.php?id_nino=<?php echo urlencode($Cid); ?>')">Registrar
                     padres</button>
                 <button type="button" class="update-button" onclick="actualizar()">Actualizar datos</button>
                 <button type="submit" class="save-button" disabled>Guardar cambios</button>
@@ -53,19 +61,109 @@
 
         <section class="visit-history">
             <h2>Historial de visitas realizadas</h2>
-            <button type="button" id="boton" onclick="abrirPagina('Visita.php?id_nino=<?php echo urlencode($Cid);?>&fec_naci=<?php echo urlencode($Cfec);?>')">Agregar Visita</button>
-            <div class="visits">
-                <table class="visit">
+            <button type="button" id="boton"
+                onclick="abrirPagina('Visita.php?id_nino=<?php echo urlencode($Cid);?>&fec_naci=<?php echo urlencode($Cfec);?>&sex=<?php echo urlencode($Csex);?>')">Agregar
+                Visita</button>
+            <div class="table-container">
+                <table class="visit" border="1" style="display: flex; flex-wrap: wrap;">
                     <tr>
-                        <th></th>
-                        <th></th>
-                        <th></th>
+                        <th id="fecha">Fecha</th>
+                        <th id="peso">Peso</th>
+                        <th id="altura">Altura</th>
+                        <th id="perimetro">Per. Cefalico</th>
+                        <th id="imc">IMC</th>
+                        <th id="pediatra">Pediatra a cargo</th>
                     </tr>
-
+                    <?php
+                        if ($result5->num_rows > 0) {
+                            while ($fila = $result5->fetch_assoc()) {
+                                echo "<tr class='fila'>";
+                                echo "<td hidden>" . $fila["idVisita"] . "</td>";
+                                echo "<td class='fecha'>" . $fila["fecha_visita"] . "</td>";
+                                echo "<td class='peso'>" . $fila["pesoPaciente_visita"] . "</td>";
+                                echo "<td class='altura'>" . $fila["alturaPaciente_visita"] . "</td>";
+                                echo "<td class='perimetro'>" . $fila["perimetroCefaPaciente_visita"] . "</td>";
+                                echo "<td class='imc'>" . $fila["IMC_visita"] . "</td>";
+                                echo "<td class='pediatra'>" . $fila["nom_persona"] . "</td>";
+                                echo "</tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='6'>No se encontraron resultados</td></tr>";
+                        }
+                        ?>
                 </table>
             </div>
         </section>
     </main>
+    <?php
+        $id = $_SESSION['Persona_idPersona'];
+
+        $sql = "SELECT * FROM acceso WHERE Persona_idPersona = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+
+        if ($row['fk_id_estado'] === 0) {
+            echo "<script>
+                alert('Advertencia, la cuenta se encuentra inactiva, no se pueden actualizar ni agregar nuevos datos');
+                document.getElementsByClassName('update-button')[0].disabled = true;
+                document.getElementsByClassName('update-button')[1].disabled = true;
+                document.getElementsByClassName('save-button')[0].disabled = true;
+                document.getElementById('boton').disabled = true;
+            </script>";
+        }
+    ?>
+
+
+    <script>
+        document.querySelectorAll('th').forEach(function (th) {
+            th.addEventListener('click', function () {
+                var column = this.id;
+                sortTable(column);
+            });
+        });
+
+        function sortTable(column) {
+            var table, rows, switching, i, x, y, shouldSwitch;
+            table = document.querySelector(".visit");
+            switching = true;
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByClassName(column)[0];
+                    y = rows[i + 1].getElementsByClassName(column)[0];
+                    // Convertir las fechas a objetos Date para comparar
+                    var dateX = new Date(x.innerHTML);
+                    var dateY = new Date(y.innerHTML);
+                    if (dateX > dateY) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                }
+            }
+        }
+
+    </script>
+
+    <script>
+        // Agregar evento clic a las filas
+        var filas = document.querySelectorAll('.fila');
+        filas.forEach(function (fila) {
+            fila.addEventListener('click', function () {
+                var idVisita = this.querySelector('td:first-child').innerText;
+                window.open('Con_Visita.php?id=' + idVisita + '&id_nino=<?php echo $Cid ?> &sex=<?php echo $Csex ?>', '_blank');
+            });
+        });
+    </script>
+
 
     <script>
 
@@ -81,12 +179,14 @@
                 document.getElementsByName("surnames")[0].readOnly = true;
                 document.getElementsByName("birth-date")[0].readOnly = true;
                 document.getElementsByName("emergency-phone")[0].readOnly = true;
+                document.getElementsByName("password")[0].readOnly = true;
                 document.getElementsByClassName("save-button")[0].disabled = true;
             } else {
                 document.getElementsByName("names")[0].readOnly = false;
                 document.getElementsByName("surnames")[0].readOnly = false;
                 document.getElementsByName("birth-date")[0].readOnly = false;
                 document.getElementsByName("emergency-phone")[0].readOnly = false;
+                document.getElementsByName("password")[0].readOnly = false;
                 document.getElementsByClassName("save-button")[0].disabled = false;
             }
         }
@@ -116,7 +216,6 @@
             </script>';
         }
     ?>
-
 
 </body>
 

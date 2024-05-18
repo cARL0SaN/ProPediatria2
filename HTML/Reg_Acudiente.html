@@ -13,6 +13,7 @@
 </head>
 
 <body background="img/pediatra.jpg">
+    <?php include 'logout_Timer.php'; ?>
     <main class="contain">
         <section class="container">
             <article id="tit">
@@ -33,12 +34,11 @@
                 </aside>
                 <section class="datos">
                     <input type="text" name="ident" id="ide" placeholder="Número de Identificaión"
-                        oninput="validarNumeros(event)" maxlength="15">
+                        oninput="validarNumeros(event)" maxlength="15" required>
                     <input type="text" name="nombre" id="nom" placeholder="Nombre(s)"
-                        oninput="validarTextoNumeros(event)" disabled>
-                    <input type="text" name="apellido" id="ape" placeholder="Apellidos" oninput="validarTexto(event)"
-                        disabled>
-                    <select name="gs" id="gs1">
+                        oninput="validarTextoNumeros(event)" readonly required>
+                    <input type="text" name="apellido" id="ape" placeholder="Apellidos" oninput="validarTexto(event)" readonly  required>
+                    <select name="gs" id="gs3"  required>
                         <option value="" disabled selected value="">Grupo Sanguineo</option>
                         <option value="A+">A+</option>
                         <option value="A-">A-</option>
@@ -49,12 +49,12 @@
                         <option value="O+">O+</option>
                         <option value="O-">O-</option>
                     </select>
-                    <input type="date" id="fec_nac" name="fec_nac" disabled>
-                    <input type="email" name="correo" id="cor" placeholder="Correo">
+                    <input type="date" id="fec_nac" name="fec_nac" readonly  required>
+                    <input type="email" name="correo" id="cor" placeholder="Correo" required>
                     <input type="tel" name="telefono" id="tele" placeholder="Teléfono" maxlength="14"
-                        oninput="validarNumeros(event)">
+                        oninput="validarNumeros(event)" required>
                     <div id="contra">
-                        <input type="password" name="cont" id="cont" placeholder="contraseña">
+                        <input type="password" name="cont" id="cont" placeholder="contraseña" required>
                     </div>
                 </section>
                 <div id="botones">
@@ -71,11 +71,11 @@
     </main>
 
     <script>
-        document.getElementById("campos").addEventListener("submit", function () {
+        /*document.getElementById("campos").addEventListener("submit", function () {
             document.getElementsByName("nombre")[0].disabled = false;
             document.getElementsByName("apellido")[0].disabled = false;
             document.getElementsByName("fec_nac")[0].disabled = false;
-        });
+        });*/
     </script>
 
 

@@ -10,6 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $db = mysqli_connect('localhost', 'root', '', 'propediatria');
 
+    $errors0 = "<script>alert('Acceso denegado a Administrador')</script>";
     $errors1 = "<script>alert('Acceso denegado a Pediatra')</script>";
     $errors2 = "<script>alert('Acceso denegado a Acudiente')</script>";
     $errors3 = "<script>alert('Acceso denegado')</script>";
@@ -32,7 +33,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $var = $row1['Rol_idRol'];
             }
 
-            if ($var == 1 || $var == 2) {
+            if ($var == 1) {
+                if ($cont == $row['clave_acce']) {
+                    // Inicio de sesión válido
+                    $_SESSION['Persona_idPersona'] = $id;
+                    echo "<script>alert('Bienvenido')</script>";
+                    header("refresh:1;url=../HTML/Index_Administrador.html");
+                    exit();
+                } else {
+                    // Contraseña inválida
+                    echo $errors1;
+                }
+            }
+            if ($var == 2) {
                 if ($cont == $row['clave_acce']) {
                     // Inicio de sesión válido
                     $_SESSION['Persona_idPersona'] = $id;
@@ -61,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo $errors3;
         }
     }
-    header("refresh:1;url=../inicio_sesion.html");
+    header("refresh:1;url=../HTML/inicio_sesion.html");
     exit();
 } else {
     // Si no se han enviado datos por POST, redirige a la página de inicio de sesión

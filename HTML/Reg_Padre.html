@@ -11,6 +11,7 @@
 </head>
 
 <body>
+    <?php include 'logout_Timer.php'; ?>
     <div class="contain">
         <section class="container">
             <article id="tit">
@@ -71,6 +72,22 @@
             </form>
         </section>
     </div>
+    
+    <script>
+        // Obtener la fecha actual
+        const fechaActual = new Date();
+        const fechaActual1 = new Date();
+
+        // Restar 14 años a la fecha actual
+        fechaActual1.setFullYear(fechaActual1.getFullYear() -12);
+
+        // Formatear la fecha como YYYY-MM-DD (formato requerido por el input date)
+        const fechaMinima = fechaActual.toISOString().split('T')[0];
+        const fechaMaxima = fechaActual1.toISOString().split('T')[0];
+
+        // Establecer la fecha mínima en el input date
+        document.getElementById('fecha_nac').setAttribute('max', fechaMaxima);
+    </script>
 
     <script>
         function cerrar() {

@@ -29,6 +29,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->close();
 } else {
     echo "<script>alert('La variable de sesión está vacía')</script>";
-    header("refresh:1;url=../index.html");
+    header("refresh:1;url=../HTML/index.html");
 }
 ?>

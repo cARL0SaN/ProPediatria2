@@ -7,6 +7,10 @@
     <title>ProPediatria - Agregar Visita</title>
     <link rel="icon" href="../img/Logomin.png">
     <link rel="stylesheet" href="../CSS/Visita.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="../PHP & JS/Jv_grafica.js"></script>
 </head>
 
 <body>
@@ -19,41 +23,32 @@
                 <div id="container2">
                     <label for="" class="dat">Fecha de la visita</label><br>
                     <input type="date" name="fecha" class="data1" id="fecha" readonly>
-                    <input type="hidden" name="fecha_naci" value="<?php echo $fec_naci?>">
+                    <input type="hidden" id="fechaNacimiento" name="fecha_naci" value="<?php echo $fec_naci?>">
+                    <input type="hidden" name="sex" value="<?php echo $sex?>">
+                    <input type="hidden" name="edad" value="<?php echo $edad; ?>">
                     <input type="hidden" name="id_nino" value="<?php echo $id_nino?>">
                 </div>
 
                 <div id="container2">
                     <div id="inside1">
                         <label for="" class="dat">Talla/Longitud(cm)</label>
-                        <input type="number" name="talla" class="data1" id="talla" min="0">
+                        <input type="number" name="talla" class="data1" id="talla" min="0" step=".01">
                     </div>
                     <div id="inside1">
                         <label for="" class="dat">Peso(kg)</label>
-                        <input type="number" name="peso" class="data1" id="peso" min="0">
+                        <input type="number" name="peso" class="data1" id="peso" min="0" step=".01">
                     </div>
                     <div id="inside1">
                         <label for="" class="dat">Perímetro Cefálico(cm)</label>
-                        <input type="number" name="peri" class="data1" id="peri" min="0">
-                    </div>
-                </div>
-
-
-                <div id="container2">
-                    <div id="inside">
-                        <label for="" class="dat">Cirugias</label>
-                        <input type="radio" name="des4" value="si" class="data2" id="radio" onclick="mosArea(this)">si
-                        <textarea name="" id="area" cols="95" rows="2"></textarea>
-                        <input type="radio" name="des4" value="no" class="data2" id="radio" onclick="mosArea(this)">no
-                        
+                        <input type="number" name="peri" class="data1" id="peri" min="0" step=".01">
                     </div>
                 </div>
 
                 <div id="container2">
                     <div id="inside">
                         <label for="" class="dat">Enfermedades</label>
-                        <input type="radio" name="des3" value="si" class="data2" id="radio" onclick="mosArea(this)">si
-                        <select id="opciones" name="opciones">
+                        <input type="radio" name="des3" value="si" class="data2" id="radio" onclick="mostrar(1)">si
+                        <select id="opciones" name="opciones" hidden>
                             <?php
                             if ($result2->num_rows > 0) {
                                 while($row = $result2->fetch_assoc()) {
@@ -64,15 +59,15 @@
                             }
                             ?>
                         </select>
-                        <textarea id="observaciones" name="observaciones" rows="4" cols="50"></textarea>
-                        <button id="agregar">Agregar</button>
-                        <textarea id="seleccionados" name="seleccionados" rows="4" cols="50" readonly></textarea>
-                        <input type="radio" name="des3" value="no" class="data2" id="radio" onclick="mosArea(this)">no
+                        <textarea id="observaciones" name="observaciones" rows="4" cols="50" hidden></textarea>
+                        <button id="agregar" hidden>Agregar</button>
+                        <textarea id="seleccionados" name="seleccionados" rows="4" cols="50" hidden readonly></textarea>
+                        <input type="radio" name="des3" value="no" class="data2" id="radio" onclick="mostrar(2)" checked>no
                     </div>
                     <div id="inside">
                         <label for="" class="dat">Vacunas aplicadas</label>
-                        <input type="radio" name="des1" value="si" class="data2" id="radio" onclick="mosArea(this)">si
-                        <select id="opciones2" name="opciones">
+                        <input type="radio" name="des1" value="si" class="data2" id="radio" onclick="mostrar(3)">si
+                        <select id="opciones2" name="opciones" hidden>
                             <?php
                             if ($result->num_rows > 0) {
                                 while($row = $result->fetch_assoc()) {
@@ -83,10 +78,10 @@
                             }
                             ?>
                         </select>
-                        <textarea id="observaciones2" name="observaciones2" rows="4" cols="50"></textarea>
-                        <button id="agregar2">Agregar</button>
-                        <textarea id="seleccionados2" name="seleccionados2" rows="4" cols="50" readonly></textarea>
-                        <input type="radio" name="des1" value="no" class="data2" id="radio" onclick="mosArea(this)">no
+                        <textarea id="observaciones2" name="observaciones2" rows="4" cols="50" hidden></textarea>
+                        <button id="agregar2" hidden>Agregar</button>
+                        <textarea id="seleccionados2" name="seleccionados2" rows="4" cols="50" hidden readonly></textarea>
+                        <input type="radio" name="des1" value="no" class="data2" id="radio" onclick="mostrar(4)" checked>no
                     </div>
                 </div>
 
@@ -97,9 +92,12 @@
                     </div>
                 </div>
 
-                <div id="container2">
-                    <input type="button" value="Crear Gráfica" id="boton" onclick="mosgrafica()">
-                    <div id="grafica">
+                <div id="container2"><div id="container2">
+                    <input type="button" value="Crear Gráfica" id="boton" onclick="inicializarGrafica()">
+                </div>
+                    <canvas id="myCanvas" width="630" height="510"></canvas>
+                    <div id="graficaSeleccionada" style="display: none; position: relative;">
+                        <p id="descripcionGrafica" style="text-align: center;"></p>
                     </div>
                 </div>
 
@@ -169,20 +167,30 @@
     </script>
 
     <script>
+        function mostrar(opcion) {
+            if (opcion === 1) {
+                document.getElementById('opciones').style.display = 'flex';
+                document.getElementById('agregar').style.display = 'flex';
+                document.getElementById('observaciones').style.display = 'flex';
+                document.getElementById('seleccionados').style.display = 'flex';
+            } else if (opcion === 2) {
+                document.getElementById('opciones').style.display = 'none';
+                document.getElementById('agregar').style.display = 'none';
+                document.getElementById('observaciones').style.display = 'none';
+                document.getElementById('seleccionados').style.display = 'none';
+            }
 
-        function mosArea(radio) {
-            var area = radio.parentNode.querySelector('textarea');
-            var otrasAreas = radio.parentNode.parentNode.querySelectorAll('textarea');
-
-            if (radio.value === 'si') {
-                area.style.display = 'block';
-                otrasAreas.forEach(function (otraArea) {
-                    if (otraArea !== area) {
-                        otraArea.style.display = 'none';
-                    }
-                });
-            } else {
-                area.style.display = 'none';
+            
+            if (opcion === 3) {
+                document.getElementById('opciones2').style.display = 'flex';
+                document.getElementById('agregar2').style.display = 'flex';
+                document.getElementById('observaciones2').style.display = 'flex';
+                document.getElementById('seleccionados2').style.display = 'flex';
+            } else if (opcion === 4) {
+                document.getElementById('opciones2').style.display = 'none';
+                document.getElementById('agregar2').style.display = 'none';
+                document.getElementById('observaciones2').style.display = 'none';
+                document.getElementById('seleccionados2').style.display = 'none';
             }
         }
     </script>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProPediatria - Agregar Visita</title>
+    <link rel="icon" href="../img/Logomin.png">
+    <link rel="stylesheet" href="../CSS/Visita.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="../PHP & JS/Jv_grafica.js"></script>
+</head>
+
+<body>
+    <?php include 'logout_Timer.php'; ?>
+    <main class="contain">
+        <article id="tit">
+            <h1>AGREGAR VISITA</h1>
+        </article>
+        <section class="container">
+            <form action="Agre_Vis.php" method="post" class="datos">
+                <div id="container2">
+                    <label for="" class="dat">Fecha de la visita</label><br>
+                    <input type="date" name="fecha" class="data1" id="fecha" value="<?php echo $Fec; ?>" readonly>
+                    <input type="hidden" id="fechaNacimiento" value="<?php echo $fec_naci?>">
+                    <input type="hidden" name="edad" value="<?php echo $edad; ?>">
+                    <input type="hidden" name="id_nino" value="<?php echo $id_nino?>">
+                </div>
+
+                <div id="container2">
+                    <div id="inside1">
+                        <label for="" class="dat">Talla/Longitud(cm)</label>
+                        <input type="number" name="talla" class="data1" id="talla" min="0" value="<?php echo $Talla?>"
+                            readonly>
+                    </div>
+                    <div id="inside1">
+                        <label for="" class="dat">Peso(kg)</label>
+                        <input type="number" name="peso" class="data1" id="peso" min="0" value="<?php echo $Peso?>"
+                            readonly>
+                    </div>
+                    <div id="inside1">
+                        <label for="" class="dat">Perímetro Cefálico(cm)</label>
+                        <input type="number" name="peri" class="data1" id="peri" min="0" value="<?php if($Peri == 0){echo $Peri = null;}else{echo $Peri;} ?>"
+                            readonly>
+                    </div>
+                </div>
+
+                <div id="container2">
+                    <div id="inside">
+                        <label for="" class="dat">Enfermedades</label>
+                        <textarea id="seleccionados" name="seleccionados" rows="4" cols="50"
+                            readonly><?php echo $Enfer?></textarea>
+                    </div>
+                    <div id="inside">
+                        <label for="" class="dat">Vacunas aplicadas</label>
+                        <textarea id="seleccionados2" name="seleccionados2" rows="4" cols="50"
+                            readonly><?php echo $Vacun?></textarea>
+                    </div>
+                </div>
+
+                <div id="container2">
+                    <div id="inside2">
+                        <label for="" class="dat">Observaciones</label>
+                        <textarea name="obser" id="textmedi" cols="95" rows="10"><?php echo $Obs?></textarea>
+                    </div>
+                </div>
+
+                <div id="container2"><div id="container2">
+                    <input type="button" value="Crear Gráfica" id="boton" onclick="inicializarGrafica()">
+                </div>
+                    <canvas id="myCanvas" width="630" height="510"></canvas>
+                    <div id="graficaSeleccionada" style="display: none; position: relative;">
+                        <p id="descripcionGrafica" style="text-align: center;"></p>
+                    </div>
+                </div>
+            </div>
+                </div>
+
+                <div id="botones">
+                    <a href="#">
+                        <input type="button" value="Salir" id="boton" onclick="window.close()">
+                    </a>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        function mosgrafica() {
+            document.getElementById('grafica').style.display = 'flex';
+        }
+    </script>
+
+    <script>
+        document.getElementById('talla').addEventListener('keydown', function (e) {
+            if (e.key === '-') {
+                e.preventDefault();
+            }
+        });
+        document.getElementById('peso').addEventListener('keydown', function (e) {
+            if (e.key === '-') {
+                e.preventDefault();
+            }
+        });
+        document.getElementById('peri').addEventListener('keydown', function (e) {
+            if (e.key === '-') {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+
+</html>

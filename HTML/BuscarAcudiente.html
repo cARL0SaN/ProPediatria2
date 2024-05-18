@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Búsqueda de Pediatra</title>
+    <link rel="icon" href="../img/Logomin.png">
+    <script src="../PHP & JS/admin.js" defer></script>
+    <link rel="stylesheet" href="../CSS/BuscarNPA.css">
+</head>
+
+<body>
+    <h1>Búscar Acudiente</h1>
+    <form class="campoBuscar" action="../PHP & JS/buscarAcudiente_.php" method="post" enctype="multipart/form-data">
+        <label for="buscar">Buscar Acudiente:</label>
+        <input type="text" id="buscar" name="idAcudiente" placeholder="Numero Identificacion">
+        <input type="submit" value="Buscar" id="botonBuscar">
+    </form>
+    <div id="botonCancelarContainer">
+        <button type="button" id="botonCancelar" onclick="cancelar()">Cancelar</button>
+    </div>
+</body>
+
+</html>
+
