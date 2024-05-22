@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProPediatria - Pediatras</title>
+    <link rel="icon" href="../img/Logomin.png">
+    <link rel="stylesheet" href="../CSS/Ninos.css">
+
+</head>
+
+<body>
+    <?php include 'logout_Timer.php'; ?>
+    <main class="contain">
+        
+        <header style="width: 100%; display: flex; justify-content: center; align-items: center;"><h1 style="margin: 1em 0 1em 0; width: 70%; text-align: center;">Menores a cargo</h1><a href="#" onclick="logout()" style= "width: 20%; text-align: center;">Cerrar Sesion</a></header>
+
+        <section class="pediatras" style="margin-bottom: 3em;">
+            <?php
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo '<div class="info" id="info" style=" display: flex; justify-content: center; align-items: center;">
+                            Numero de identificacion: ' . $row['idPersona'] . 
+                            '<br> Nombre: ' . $row['nom_persona'] . 
+                            '<br> Apellido: ' . $row['ape_persona'] . 
+                            '<br> <a href="../PHP & JS/info_nino.php?ident=' . urlencode($row['idPersona']) . '" style="color: rgb(52, 115, 182); font-weight: 500;">Entrar</a>' . 
+                          '</div>';
+                }
+            }
+            ?>
+        </section>
+
+    </main>
+
+
+    <script>
+        function logout() {
+            if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+                window.location.href = 'logout.php';
+            }
+        }
+    </script>
+</body>
+
+</html>

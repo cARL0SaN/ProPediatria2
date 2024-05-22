@@ -296,7 +296,7 @@ a {
     
 }
 
-#boton {
+.boton, #boton {
     width: 100%;
     height: 100%;
     transition-duration: 1s;
@@ -307,7 +307,7 @@ a {
 }
 
 
-#boton:hover {
+.boton:hover, #boton:hover {
     transition-duration: 1s;
     cursor: pointer;
     background-color: rgb(1, 138, 138);

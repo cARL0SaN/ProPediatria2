@@ -61,6 +61,14 @@
                     </select>
                 </section>
 
+                <label for="registro-civil-nino">Registro civil del niño:</label>
+                <input type="text" id="registro-civil-nino" name="registro_civil_nino" placeholder="ID del menor"
+                    oninput="validarNumeros(event)" maxlength="15">
+
+                <label for="documento-responsable">Número documento del responsable:</label>
+                <input type="text" id="documento-responsable" name="documento_responsable"
+                    placeholder="ID del responsable" oninput="validarNumeros(event)" maxlength="15">
+
                 <label for="nombre-responsable">Nombre completo del responsable:</label>
                 <input type="text" id="nombre_responsable" name="Nombre_responsable"
                     placeholder="nombre del responsable" oninput="validarTextoNumeros(event)">
@@ -72,14 +80,6 @@
                 <label for="fecha-nacimiento-responsable" id="fecha-responsable">Fecha de nacimiento del
                     responsable:</label>
                 <input type="date" id="fecha_nacimiento_responsable" name="fecha_nacimiento_responsable">
-
-                <label for="documento-responsable">Número documento del responsable:</label>
-                <input type="text" id="documento-responsable" name="documento_responsable"
-                    placeholder="ID del responsable" oninput="validarNumeros(event)" maxlength="15">
-
-                <label for="registro-civil-nino">Registro civil del niño:</label>
-                <input type="text" id="registro-civil-nino" name="registro_civil_nino" placeholder="ID del menor"
-                    oninput="validarNumeros(event)" maxlength="15">
                 <div id="botones">
                     <a href="#">
                         <input type="button" value="Salir" id="boton">
